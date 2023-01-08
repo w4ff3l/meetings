@@ -7,17 +7,36 @@ import discord4j.core.event.domain.Event
 import mu.KotlinLogging
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
-import org.springframework.core.annotation.Order
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 
 private val logger = KotlinLogging.logger {}
 
 @Component
-@Order(2)
-class Bot<T : Event>(private val discordClient: DiscordClient, private val eventListeners: List<EventListener<T>>) :
-    ApplicationRunner {
+class Bot<T : Event>(
+    private val discordClient: DiscordClient,
+    private val eventListeners: List<EventListener<T>>,
+    private val commandRegistrar: CommandRegistrar
+) : ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
+        // The order is important since we block with the registration of the events.
+        // Always keep the blocking operation as the last step.
+        registerCommands()
+        registerEvents()
+    }
+
+    private fun registerCommands() {
+        logger.info("Updating SlashCommands")
+
+        discordClient.guilds.subscribe {
+            commandRegistrar.deleteSlashcommands(it.id().asLong())
+            commandRegistrar.addSlashCommands(it.id().asLong())
+        }
+
+        logger.info("SlashCommands updated")
+    }
+
+    private fun registerEvents() {
         val events = mutableListOf<Mono<Void>>()
 
         logger.info { "Creating Client..." }
@@ -27,13 +46,11 @@ class Bot<T : Event>(private val discordClient: DiscordClient, private val event
 
             Mono.`when`(events)
         }.block()
-        logger.info { "AFter" }
     }
 }
 
 private fun <T : Event> MutableList<Mono<Void>>.addEvents(
-    gatewayDiscordClient: GatewayDiscordClient,
-    eventListeners: List<EventListener<T>>
+    gatewayDiscordClient: GatewayDiscordClient, eventListeners: List<EventListener<T>>
 ) {
     eventListeners.forEach {
         this.add(

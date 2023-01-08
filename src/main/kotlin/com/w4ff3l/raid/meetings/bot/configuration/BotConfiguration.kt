@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BotConfiguration(@Value("\${token}") val token: String) {
+class BotConfiguration(@Value("\${discord.token}") private val token: String) {
     @Bean
     fun discordClient(): DiscordClient {
         return DiscordClientBuilder.create(token).build()
