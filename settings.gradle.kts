@@ -1,1 +1,1 @@
-rootProject.name = "raid-meetings"
+rootProject.name = "meetings"
