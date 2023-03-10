@@ -1,0 +1,10 @@
+discord:
+  token: ${DISCORD_BOT_TOKEN}
+  applicationId: ${DISCORD_BOT_APPLICATION_ID}
+
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: discord
