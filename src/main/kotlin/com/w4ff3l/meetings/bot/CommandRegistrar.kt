@@ -17,7 +17,7 @@ class CommandRegistrar(
 ) {
     private val applicationService = discordClient.applicationService
 
-    fun deleteSlashcommands(guildId: Long) {
+    fun deleteSlashcommands() {
         logger.info("Deleting old SlashCommands...")
         applicationService.getGlobalApplicationCommands(applicationId).collectMap(ApplicationCommandData::name).block()
             ?.forEach {
@@ -27,7 +27,7 @@ class CommandRegistrar(
             }
     }
 
-    fun addSlashCommands(guildId: Long) {
+    fun addSlashCommands() {
         logger.info("Adding new SlashCommands...")
         slashCommands.forEach {
             applicationService.createGlobalApplicationCommand(applicationId, it.getCommandRequest())

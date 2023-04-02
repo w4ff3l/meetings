@@ -21,19 +21,15 @@ class Bot<T : Event>(
     override fun run(args: ApplicationArguments?) {
         // The order is important since we block with the registration of the events.
         // Always keep the blocking operation as the last step.
-        registerCommands()
+//        registerCommands()
         registerEvents()
     }
 
     private fun registerCommands() {
-        logger.info("Updating SlashCommands")
-
         discordClient.guilds.subscribe {
-            commandRegistrar.deleteSlashcommands(it.id().asLong())
-            commandRegistrar.addSlashCommands(it.id().asLong())
+            commandRegistrar.deleteSlashcommands()
+            commandRegistrar.addSlashCommands()
         }
-
-        logger.info("SlashCommands updated")
     }
 
     private fun registerEvents() {
