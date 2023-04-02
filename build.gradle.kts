@@ -27,7 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.6.4")
-    implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
 
     // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -43,9 +43,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.mockk:mockk:1.13.2")
-    testImplementation("com.ninja-squad:springmockk:4.0.0")
-    testImplementation("io.projectreactor.addons:reactor-test:3.0.7.RELEASE")
+    testImplementation("io.mockk:mockk:1.13.4")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
+    testImplementation("io.projectreactor:reactor-test:3.5.4")
     testImplementation("io.github.azagniotov:stubby4j:7.5.2")
 }
 
