@@ -15,6 +15,10 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+    all {
+        exclude(module = "spring-boot-starter-logging")
+        exclude(module = "logback-classic")
+    }
 }
 
 repositories {
@@ -47,6 +51,8 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:4.0.2")
     testImplementation("io.projectreactor:reactor-test:3.5.4")
     testImplementation("io.github.azagniotov:stubby4j:7.5.2")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.6")
+    testImplementation("org.testcontainers:mongodb:1.17.6")
 }
 
 tasks.withType<KotlinCompile> {
